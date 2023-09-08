@@ -1,3 +1,4 @@
+// Imports
 const {
   appendFile,
   open,
@@ -6,7 +7,7 @@ const {
   readFile,
 } = require("fs/promises");
 
-const { ensureFile } = require("fs-extra");
+const { ensureFileSync } = require("fs-extra");
 
 // Open a File
 async function openFile(fileName, data) {
@@ -38,7 +39,7 @@ async function writeToFile(fileName, data) {
     await writeFile(fileName, data);
     // console.log(`Wrote Data to ${fileName}`);
   } catch (e) {
-    // console.error(`Got an error trying to create file: ${error.message}`);
+    // console.error(`Got an error trying to write to file: ${error.message}`);
     return error;
   }
 }
@@ -69,7 +70,7 @@ async function deleteFile(filePath) {
 
 async function ensureFileExists(filePath) {
   try {
-    await ensureFile(filePath);
+    await ensureFileSync(filePath);
     // console.log(`${filePath} exists or has been created.`);
   } catch (error) {
     // console.error(`Got an error trying to check file: ${error.message}`);
