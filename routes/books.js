@@ -10,7 +10,6 @@ const rootDir = require("../util/path");
 // file path to create or fetch books.json
 const filePath = path.join(rootDir, "data", "books.json");
 
-
 // Defining Router
 const router = express.Router();
 
@@ -76,7 +75,6 @@ const writeData = () => {
 
 // /books --> GET --> return html file containing a list of books
 router.get("/books", [readData], (req, res, next) => {
-  // res.json({ result : books});
   res.render("list-books", {
     bookList: books,
     pageTitle: "Shop",
@@ -89,7 +87,6 @@ router.get("/books/:id", [readData], (req, res, next) => {
   const id = req.params.id;
   const book = books.find((book) => book.id === id);
   if (book) {
-    // res.json(book);
     res.render("book", { pageTitle: `${book.name}`, bookObj: book });
   } else {
     res.status(404).render("404", { pageTitle: "Page not found" });
