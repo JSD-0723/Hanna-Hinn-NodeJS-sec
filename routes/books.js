@@ -21,6 +21,8 @@ const bookValidation = [
   check("name", "name does not exist!").exists().isString().notEmpty(),
 ];
 
+////////////////////////// Functions ///////////////////////////////////////////////
+
 // Function to check if file exists if not create
 const checkFile = (res) => {
   console.log("Checking File...");
@@ -29,26 +31,6 @@ const checkFile = (res) => {
     console.log("Error processing Data file: " + filePath);
     return;
   });
-};
-
-// Read the Data from the file then fill the list
-// if the file doesn't exist then returns empty list
-const readData = (req, res, next) => {
-  console.log("Reading Data...");
-  const readBooks = fileManipulation.readThisFile(filePath);
-  readBooks
-    .then((data) => {
-      books.length = 0;
-      books.push(...JSON.parse(data));
-      console.log("Data loaded successfully");
-    })
-    .catch(() => {
-      books.length = 0;
-      console.log("Error reading Data file! returning empty list!");
-    })
-    .finally(() => {
-      next();
-    });
 };
 
 // function for handling incoming requests and adding item to list
@@ -72,6 +54,31 @@ const writeData = () => {
     return;
   });
 };
+
+
+////////////////////////// MiddleWare ///////////////////////////////////////////////
+
+// Read the Data from the file then fill the list
+// if the file doesn't exist then returns empty list
+const readData = (req, res, next) => {
+  console.log("Reading Data...");
+  const readBooks = fileManipulation.readThisFile(filePath);
+  readBooks
+    .then((data) => {
+      books.length = 0;
+      books.push(...JSON.parse(data));
+      console.log("Data loaded successfully");
+    })
+    .catch(() => {
+      books.length = 0;
+      console.log("Error reading Data file! returning empty list!");
+    })
+    .finally(() => {
+      next();
+    });
+};
+
+////////////////////////// Routes ///////////////////////////////////////////////
 
 // /books --> GET --> return html file containing a list of books
 router.get("/books", [readData], (req, res, next) => {
