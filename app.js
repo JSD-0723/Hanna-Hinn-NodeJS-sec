@@ -31,4 +31,11 @@ app.use((req, res, next) => {
   res.status(404).render("404", { pageTitle: "Page not found" });
 });
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: `Something Went Wrong: ${err.message}` });
+});
+
+
 app.listen(port);

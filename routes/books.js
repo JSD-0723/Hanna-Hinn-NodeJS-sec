@@ -18,7 +18,7 @@ const books = [];
 
 // Book validation
 const bookValidation = [
-  check("name", "name does not exist!").exists().isString().notEmpty(),
+  check("name", "name does not exist!").exists().trim().isString().notEmpty(),
 ];
 
 ////////////////////////// Functions ///////////////////////////////////////////////
@@ -54,7 +54,6 @@ const writeData = () => {
     return;
   });
 };
-
 
 ////////////////////////// MiddleWare ///////////////////////////////////////////////
 
