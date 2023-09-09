@@ -24,7 +24,7 @@ const bookValidation = [
 ////////////////////////// Functions ///////////////////////////////////////////////
 
 // Function to check if file exists if not create
-const checkFile = (res) => {
+const checkFile = () => {
   console.log("Checking File...");
   const checkFile = fileManipulation.ensureFileExists(filePath);
   checkFile.catch(() => {
@@ -51,7 +51,7 @@ const writeData = () => {
   const writeData = fileManipulation.writeToFile(filePath, jsonData);
   writeData.catch((error) => {
     console.log("Error writing Data file: " + filePath);
-    return;
+    return error;
   });
 };
 
@@ -81,11 +81,12 @@ const readData = (req, res, next) => {
 
 // /books --> GET --> return html file containing a list of books
 router.get("/books", [readData], (req, res, next) => {
-  res.render("list-books", {
-    bookList: books,
-    pageTitle: "Shop",
-    path: "/books",
-  });
+  // res.render("list-books", {
+  //   bookList: books,
+  //   pageTitle: "Shop",
+  //   path: "/books",
+  // });
+  res.json(books);
 });
 
 // /books/:id --> GET --> return html file containing a book
@@ -113,9 +114,9 @@ router.post("/books", bookValidation, [readData], (req, res, next) => {
     return;
   }
   const name = req.body.name;
-  checkFile(res);
+  checkFile();
   addBookToList(name);
-  writeData(res);
+  writeData();
   res.send("Operation successful");
 });
 
